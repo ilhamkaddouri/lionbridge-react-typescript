@@ -2,30 +2,12 @@ import React, { useState } from 'react'
 import { TextField, Button, Select, MenuItem } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import { Formik, Form, Field, useField, FieldAttributes, ErrorMessage } from 'formik'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
 import './editor.css'
 import * as yup from 'yup'
-import { User } from '../../shared/models/user.model'
-import { updateUser } from '../../services/user.service'
-
-const useStyles = makeStyles({
-    root: {
-        height: 300,
-        width: "30%",
-
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'absolute',
-        left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%)'
-    },
-
-
-});
+import { User } from '../../models/user.model'
+import { updateUser } from '../../services/userservice'
 
 interface EditorProps {
     userRetrieved: User
@@ -35,35 +17,31 @@ const validationSchema = yup.object({
     firstName: yup.string().required('FirstName is Required').max(10),
     lastName: yup.string().required('lastName is Required').max(10),
     email: yup.string().email().required('email is Required'),
-    hobbie: yup.string().required('hobbie is Required').max(10)
+    hobbie: yup.string().required('hobbie is Required')
 })
 
 
 
 const Editor: React.FC<EditorProps> = ({ userRetrieved }) => {
-    const classes = useStyles();
-    async function onSubmit(values: User, setSubmitting: Function) {
-
-        let id = userRetrieved._id
+    async function onSubmit(values: User) {
         await updateUser(values).then(result => console.log("sucess")).catch(error => console.log(error))
         await window.location.reload(false);
     }
 
     return (
-        <Card className={classes.root}>
+        <Card className="editor__card">
             <CardContent>
                 <Formik
                     validateOnChange={true}
                     initialValues={{ _id: userRetrieved._id, firstName: userRetrieved.firstName, lastName: userRetrieved.lastName, email: userRetrieved.email, hobbie: userRetrieved.hobbie }}
                     validationSchema={validationSchema}
-                    onSubmit={(data, { setSubmitting }) => {
-                        setSubmitting(true)
-                        onSubmit(data, setSubmitting)
-                        setSubmitting(false)
+                    onSubmit={(data) => {
+                       
+                        onSubmit(data)
 
                     }}>
 
-                    {({ isSubmitting }) => (
+                    {({ }) => (
 
                         <Form className="editor__form">
 
@@ -89,7 +67,7 @@ const Editor: React.FC<EditorProps> = ({ userRetrieved }) => {
                             </div>
 
                             <div className="editor__field">
-                                <Button variant="contained" className="editor__btn" disabled={isSubmitting} type="submit">Save</Button>
+                                <Button variant="contained" className="editor__btn"  type="submit">Save</Button>
                             </div>
 
                         </Form>

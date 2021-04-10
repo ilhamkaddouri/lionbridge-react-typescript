@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import './list-items.css'
 import Editor from '../Editor/Editor'
 import { Modal } from '@material-ui/core'
-import { User } from '../../shared/models/user.model'
-import { getUsers } from '../../services/user.service'
+import { User } from '../../models/user.model'
+import { getUsers } from '../../services/userservice'
 import EditIcon from '@material-ui/icons/Edit';
 import { IconButton } from '@material-ui/core'
 
@@ -34,7 +34,7 @@ const ListComponent: React.FC = () => {
   
   return (
     <div className="container">
-      <h2 className="header">List of users</h2>
+      <h2 className="header">List of users with their hobbies</h2>
       {users && users.map((user, key) => (
 
         <div className='user__item'>
