@@ -6,7 +6,14 @@
     margin-top: 50px;
 }
 
-.user-item{
+.list__header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+}
+
+.user__item {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -18,14 +25,12 @@
     margin-top: 30px;
 }
 
-.btn-edit{
-    color : rgb(191, 10, 236)
+
+.btn__edit {
+    color: rgb(191, 10, 236)
 }
 
-.title {
-    margin-left: 10px;
-}
 
-.header{
+.header {
     margin: auto;
 }

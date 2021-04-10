@@ -1,16 +1,15 @@
-import Axios, {AxiosResponse} from "axios";
+import axios, {AxiosResponse} from "axios";
 import { User } from "../shared/models/user.model";
+import {API_URL} from '../shared/constant/env'
 
 export function getUsers(): Promise<AxiosResponse<any>> {
-        return Axios.get('http://localhost:5000/users');
+        return axios.get(`${API_URL}users`);
     }
 
 
-export function updateItem(user: User) {
+export function updateUser(user: User) {
     const id = user._id;
-    console.log(user)
-    console.log("id"+id)
-    const obj = {...user};
-    obj._id = undefined;
-    return Axios.put('http://localhost:5000/users/' + id, obj);
+    const newuser= {...user};
+    newuser._id = undefined;
+    return axios.put(`${API_URL}users/${id}`, newuser);
 }

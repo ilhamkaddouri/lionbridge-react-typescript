@@ -8,23 +8,23 @@ import { Formik, Form, Field, useField, FieldAttributes, ErrorMessage } from 'fo
 import './editor.css'
 import * as yup from 'yup'
 import { User } from '../../shared/models/user.model'
-import { updateItem } from '../../services/user.service'
+import { updateUser } from '../../services/user.service'
 
 const useStyles = makeStyles({
     root: {
-        height:300,
-        width:"30%",
-        
+        height: 300,
+        width: "30%",
+
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        position: 'absolute', 
-        left: '50%', 
+        position: 'absolute',
+        left: '50%',
         top: '50%',
         transform: 'translate(-50%, -50%)'
     },
-    
-    
+
+
 });
 
 interface EditorProps {
@@ -42,12 +42,10 @@ const validationSchema = yup.object({
 
 const Editor: React.FC<EditorProps> = ({ userRetrieved }) => {
     const classes = useStyles();
-    //const [user, setUser] = useState<User>({});
-
     async function onSubmit(values: User, setSubmitting: Function) {
 
         let id = userRetrieved._id
-        await updateItem(values).then(result => console.log("sucess")).catch(error => console.log(error))
+        await updateUser(values).then(result => console.log("sucess")).catch(error => console.log(error))
         await window.location.reload(false);
     }
 
@@ -65,7 +63,7 @@ const Editor: React.FC<EditorProps> = ({ userRetrieved }) => {
 
                     }}>
 
-                    {({ values, errors, isSubmitting }) => (
+                    {({ isSubmitting }) => (
 
                         <Form className="editor__form">
 
@@ -83,10 +81,10 @@ const Editor: React.FC<EditorProps> = ({ userRetrieved }) => {
 
                             <div className="editor__field">
                                 <Field type="select" name="hobbie" as={Select}  >
-                                    <MenuItem value="dancing">dancing</MenuItem>
-                                    <MenuItem value="singing">singing</MenuItem>
-                                    <MenuItem value="playing">playing</MenuItem>
-                                    <MenuItem value="climbing">climbing</MenuItem>
+                                    <MenuItem value="Writing">Writing</MenuItem>
+                                    <MenuItem value="Singing">Singing</MenuItem>
+                                    <MenuItem value="Playing">Playing</MenuItem>
+                                    <MenuItem value="Dancing">Dancing</MenuItem>
                                 </Field>
                             </div>
 
@@ -94,12 +92,6 @@ const Editor: React.FC<EditorProps> = ({ userRetrieved }) => {
                                 <Button variant="contained" className="editor__btn" disabled={isSubmitting} type="submit">Save</Button>
                             </div>
 
-
-
-
-                            {/* <pre>
-                     {JSON.stringify(values,null,2)}
-                     </pre> */}
                         </Form>
 
                     )}

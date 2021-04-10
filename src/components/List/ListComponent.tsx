@@ -1,24 +1,23 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import './list-items.css'
 import Editor from '../Editor/Editor'
 import { Modal } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles';
 import { User } from '../../shared/models/user.model'
 import { getUsers } from '../../services/user.service'
 import EditIcon from '@material-ui/icons/Edit';
 import { IconButton } from '@material-ui/core'
 
 
-const ListComponent: React.FC = ({ }) => {
-  const [open, setOpen] = React.useState(false);
+const ListComponent: React.FC = () => {
+  const [open, setOpen] = React.useState<boolean>(false);
   const [users, setUsers] = React.useState<User[]>([])
 
-  useEffect(() => {
+  useEffect( () => {
     let newUsers: any = [];
     getUsers().then(response => {
-      newUsers = response.data.map((item: any) => {
-        item._id = item._id.$oid;
-        return item;
+      newUsers = response.data.map((user: any) => {
+        user._id = user._id.$oid;
+        return user;
       });
       setUsers(newUsers);
     });
@@ -32,16 +31,14 @@ const ListComponent: React.FC = ({ }) => {
   const handleClose = () => {
     setOpen(false);
   };
-  const sendEditEvent = (item: String) => {
-    return item
-  }
+  
   return (
     <div className="container">
       <h2 className="header">List of users</h2>
       {users && users.map((user, key) => (
 
-        <div className='user-item'>
-          <div className="title"><p><strong>{user.firstName} {user.lastName}</strong></p></div>
+        <div className='user__item'>
+          <div><p className="user__name"><b>{user.firstName} {user.lastName}</b></p></div>
 
           <div>
             {user.email}
@@ -52,7 +49,7 @@ const ListComponent: React.FC = ({ }) => {
           <div>
 
             <IconButton onClick={handleOpen}>
-              <EditIcon className="btn-edit" />
+              <EditIcon className="btn__edit" />
             </IconButton>
             <Modal
               open={open}
