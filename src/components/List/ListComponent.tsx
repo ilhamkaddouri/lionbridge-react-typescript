@@ -1,85 +1,74 @@
-import React ,{useState, useEffect}from 'react'
+import React, { useState, useEffect } from 'react'
 import './list-items.css'
 import Editor from '../Editor/Editor'
-import {Modal } from '@material-ui/core'
+import { Modal } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
-import {User} from '../../shared/models/user.model'
-import axios from 'axios'
-function rand() {
-    return Math.round(Math.random() * 20) - 10;
+import { User } from '../../shared/models/user.model'
+import { getUsers } from '../../services/user.service'
+import EditIcon from '@material-ui/icons/Edit';
+import { IconButton } from '@material-ui/core'
+
+
+const ListComponent: React.FC = ({ }) => {
+  const [open, setOpen] = React.useState(false);
+  const [users, setUsers] = React.useState<User[]>([])
+
+  useEffect(() => {
+    let newUsers: any = [];
+    getUsers().then(response => {
+      newUsers = response.data.map((item: any) => {
+        item._id = item._id.$oid;
+        return item;
+      });
+      setUsers(newUsers);
+    });
+
+  }, [])
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const sendEditEvent = (item: String) => {
+    return item
   }
-function getModalStyle() {
-    const top = 50 + rand();
-    const left = 50 + rand();
-  
-    return {
-      top: `${top}%`,
-      left: `${left}%`,
-      transform: `translate(-${top}%, -${left}%)`,
-    };
-  }
-  
-  const useStyles = makeStyles((theme) => ({
-    paper: {
-      position: 'absolute',
-      width: 400,
-      backgroundColor: theme.palette.background.paper,
-      border: '2px solid #000',
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-    },
-  }));
+  return (
+    <div className="container">
+      <h2 className="header">List of users</h2>
+      {users && users.map((user, key) => (
 
-const ListComponent: React.FC= ({}) => {
-    const [open, setOpen] = React.useState(false);
-    const [users,setUsers] = React.useState<User[]>([])
+        <div className='user-item'>
+          <div className="title"><p><strong>{user.firstName} {user.lastName}</strong></p></div>
 
-    useEffect(()=>{
-      axios.get('http://localhost:5000/users').then(rslt=> {console.log(rslt.data); setUsers(rslt.data)}).catch(err=>console.log(err))
-    },[])
+          <div>
+            {user.email}
+          </div>
+          <div>
+            {user.hobbie}
+          </div>
+          <div>
 
-    const handleOpen = () => {
-      setOpen(true);
-    };
-  
-    const handleClose = () => {
-      setOpen(false);
-    };
-        const sendEditEvent = (item:String)=>{
-            return item
-        }
-        return (
-            <div className="listContainer">
-            {users && users.map((user,key)=>(
-              
-              <div className='todo'>
-              <div className="title"><p><strong>{user.firstName}</strong> status</p> </div>
-              <div>
-              {user.lastName}
-              </div>
-              <div>
-              {user.email}
-              </div>
-              <div>
-              {user.hobbie}
-              </div>
-              <div>
-                  <button className="editButton"  onClick={handleOpen}>Edit</button>
-                  <Modal
-                      open={open}
-                      onClose={handleClose}
-                      aria-labelledby="simple-modal-title"
-                      aria-describedby="simple-modal-description"
-                      >
-                      <Editor userRetrieved={user}/>
-                  </Modal>
-              </div>
-      </div>
-           ))}
-                
-              
-            
+            <IconButton onClick={handleOpen}>
+              <EditIcon className="btn-edit" />
+            </IconButton>
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="simple-modal-title"
+              aria-describedby="simple-modal-description"
+            >
+              <Editor userRetrieved={user} />
+            </Modal>
+          </div>
         </div>
-        );
+      ))}
+
+
+
+    </div>
+  );
 }
-export default ListComponent 
+export default ListComponent

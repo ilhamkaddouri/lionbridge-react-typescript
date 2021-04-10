@@ -1,30 +1,31 @@
-.listContainer {
+.container {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     align-content: center;
-    margin-left: 10%;
+    margin-top: 50px;
 }
 
-.todo {
-    border: solid 0.5px gainsboro;
-    border-radius: 5px;
-    margin-top: 10px;
-    width: 80%;
+.user-item{
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    flex: 1 1 10px;
+    width: 70%;
+    background-color: rgb(141, 227, 238);
+    padding: 0 25px;
+    border-radius: 5px;
+    margin: auto;
+    margin-top: 30px;
 }
 
-.editButton {
-    width: 100px;
-    height: 20px;
-    cursor: pointer;
-    margin-right: 10px;
+.btn-edit{
+    color : rgb(191, 10, 236)
 }
 
 .title {
     margin-left: 10px;
+}
+
+.header{
+    margin: auto;
 }

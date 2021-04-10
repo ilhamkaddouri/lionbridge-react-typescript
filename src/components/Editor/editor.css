@@ -1,0 +1,17 @@
+.editor__field{
+    width:  100%;
+    margin-top: 20px;
+    
+}
+
+.editor__form{
+    height:100%;
+    width:100%;
+    margin: auto;
+
+}
+
+.editor__btn{
+    margin: auto;
+    background-color: rgb(141, 227, 238)
+}
