@@ -25,11 +25,10 @@ def get_users():
 @cross_origin('*')
 def post_user():
     body = request.json
-    print(body,"body")
+    #print(body,"body")
     user_obj = User(**body).save()
-    id= user_obj.id
-    
-    return make_response('',201)
+    id = user_obj.id
+    return make_response({'id': str(id)},201)
 
 
 @app.route('/api/v1.0.0/users/<id>',methods=['PUT'])
@@ -37,10 +36,9 @@ def post_user():
 def update_user(id):
     body = request.get_json()
     print(body,"body")
-    user_obj = User.objects(id=id).first()
-    print("user",user_obj)
-    user_obj.update(**body)
-    return make_response('',200)
+    user_obj = User.objects(id=id).update(**body)
+    
+    return make_response({'id': str(id)},200)
 
 
 
