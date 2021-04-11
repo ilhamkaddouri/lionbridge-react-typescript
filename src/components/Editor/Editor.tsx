@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { TextField, Button, Select, MenuItem } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { Formik, Form, Field, ErrorMessage } from 'formik'
@@ -16,7 +15,7 @@ interface EditorProps {
 const validationSchema = yup.object({
     firstName: yup.string().required('FirstName is Required').max(10),
     lastName: yup.string().required('lastName is Required').max(10),
-    email: yup.string().email().required('email is Required'),
+    email: yup.string().email().required('Email is Required'),
     hobbie: yup.string().required('hobbie is Required')
 })
 
@@ -26,6 +25,7 @@ const Editor: React.FC<EditorProps> = ({ userRetrieved }) => {
     async function onSubmit(values: User) {
         await updateUser(values).then(result => console.log("sucess")).catch(error => console.log(error))
         await window.location.reload(false);
+        
     }
 
     return (
@@ -41,29 +41,40 @@ const Editor: React.FC<EditorProps> = ({ userRetrieved }) => {
 
                     }}>
 
-                    {({ }) => (
+                    {() => (
 
                         <Form className="editor__form">
 
                             <div className="editor__field">
-                                <Field placeholder="FistName" type="input" name="firstName" as={TextField} helperText={<ErrorMessage name="firstName" >{msg => <div style={{ color: 'red' }}>{msg}</div>}</ErrorMessage>} />
+                                <label htmlFor="firstName">First Name</label>
+                                <Field id="firstName" placeholder="FistName" type="input" name="firstName" as={TextField} />
+                                <ErrorMessage data-testid="firstNameError" name="firstName" >{msg => <div style={{ color: 'red' }}>{msg}</div>}</ErrorMessage>
                             </div>
 
                             <div className="editor__field">
-                                <Field placeholder="LastName" type="input" name="lastName" as={TextField} helperText={<ErrorMessage name="lastName" >{msg => <div style={{ color: 'red' }}>{msg}</div>}</ErrorMessage>} />
+                                <label htmlFor="lastName">Last Name</label>
+                                <Field id="lastName" placeholder="LastName" type="input" name="lastName" as={TextField} />
+                                <ErrorMessage data-testid="lastNameError" name="lastName" >{msg => <div style={{ color: 'red' }}>{msg}</div>}</ErrorMessage>
                             </div>
 
+                            
                             <div className="editor__field">
-                                <Field placeholder="Email" type="input" name="email" as={TextField} helperText={<ErrorMessage name="email" >{msg => <div style={{ color: 'red' }}>{msg}</div>}</ErrorMessage>} />
-                            </div>
+                                <label htmlFor="email">Email</label>
+                                <Field data-testid="email" id="email" placeholder="Email" type="email" name="email" as={TextField}  />
+                                
+                                <ErrorMessage data-testid="emailError" name="email" component="div">{msg => <div style={{ color: 'red' }}>{msg}</div>}</ErrorMessage>
+                            </div> 
+                           
 
                             <div className="editor__field">
-                                <Field type="select" name="hobbie" as={Select}  >
+                                <label htmlFor="hobbie">Hobbie</label>
+                                <Field id="hobbie" type="select" name="hobbie" as={Select}  >
                                     <MenuItem value="Writing">Writing</MenuItem>
                                     <MenuItem value="Singing">Singing</MenuItem>
                                     <MenuItem value="Playing">Playing</MenuItem>
                                     <MenuItem value="Dancing">Dancing</MenuItem>
                                 </Field>
+                              
                             </div>
 
                             <div className="editor__field">
